@@ -1,0 +1,21 @@
+---
+- name: Setup Git and Pull Latest Code
+  hosts: all
+  become: true
+  vars:
+    repo_url: "https://github.com/your-username/your-repo.git"
+    dest_dir: "/var/www/myapp"
+  tasks:
+    - name: Install Git
+      yum:
+        name: git
+        state: present
+
+    - name: Clone repository if not present
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ dest_dir }}"
+        update: yes
+        version: main
+        force: yes
+
