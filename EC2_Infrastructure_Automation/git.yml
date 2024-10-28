@@ -1,0 +1,29 @@
+---
+- name: Git Installation and Configuration
+  hosts: provisioned
+  become: yes
+  tasks:
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+      register: git_install
+
+    - name: Set Git global username
+      ansible.builtin.command:
+        cmd: git config --global user.name "{{ git_user_name }}"
+      when: git_install.changed
+
+    - name: Set Git global email
+      ansible.builtin.command:
+        cmd: git config --global user.email "{{ git_user_email }}"
+      when: git_install.changed
+
+    - name: Verify Git installation
+      ansible.builtin.command:
+        cmd: git --version
+      register: git_version
+
+    - name: Display Git version
+      debug:
+        msg: "Git version installed: {{ git_version.stdout }}"
