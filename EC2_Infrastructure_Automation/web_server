@@ -1,0 +1,58 @@
+---
+- name: Web Server Installation and Configuration
+  hosts: provisioned
+  become: yes
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+      when: web_server == "apache"
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      when: web_server == "nginx"
+
+    - name: Configure Apache
+      template:
+        src: templates/apache2.conf.j2
+        dest: /etc/apache2/apache2.conf
+      notify: Restart Apache
+      when: web_server == "apache"
+
+    - name: Configure Nginx
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+      when: web_server == "nginx"
+
+    - name: Start and enable Apache
+      systemd:
+        name: apache2
+        state: started
+        enabled: yes
+      when: web_server == "apache"
+
+    - name: Start and enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+      when: web_server == "nginx"
+
+  handlers:
+    - name: Restart Apache
+      systemd:
+        name: apache2
+        state: restarted
+      when: web_server == "apache"
+
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted
+      when: web_server == "nginx"
+

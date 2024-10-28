@@ -5,6 +5,6 @@
   tasks:
     - import_playbook: provision.yml
     - import_playbook: setup.yml
-    - import_playbook: nginx.yml
     - import_playbook: git.yml
+    - import_playbook: web_server.yml
 

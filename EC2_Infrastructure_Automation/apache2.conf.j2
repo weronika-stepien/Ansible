@@ -1,0 +1,32 @@
+# Basic Apache Configuration
+
+ServerRoot "/etc/apache2"
+Listen 80
+
+# Enable the server to respond to requests for the ServerName below
+ServerName {{ ansible_hostname }}
+
+# Document Root
+DocumentRoot "/var/www/html"
+
+<Directory "/var/www/html">
+    AllowOverride All
+    Options Indexes FollowSymLinks
+    Require all granted
+</Directory>
+
+# Logging
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+# Modules
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule headers_module modules/mod_headers.so
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
