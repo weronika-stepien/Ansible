@@ -5,4 +5,7 @@ This project automates the configuration, provisioning, and deployment of web se
 
 All specific values (such as AWS credentials, security group names, and subnet IDs) have been removed from this documentation for safety and security purposes. Replace placeholders with actual values in your environment.
 
+
+ ![Ansible structure]()
+
 </div>
