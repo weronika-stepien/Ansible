@@ -1,0 +1,2 @@
+web_server: "apache"  # Set to "apache" or "nginx" based on your preference
+
